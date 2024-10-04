@@ -9,16 +9,14 @@ import numpy
     #       d^2(θ) / d(t)^2 + (g/L)sin(θ) = 0
 g = 9.8
 pi = 3.14
-# offset = 5
 xShift = 400
 yShift = 400
 
 class Pendulum:
     def __init__(self, initAngle, length):
-        self.offset = 1 #this will be our measure of "time" since we will increment this number on every update
         self.angle = numpy.radians(initAngle)
         self.length = length
-        self.oscillationConst = (g / length) # = not to be confused with angular velocity. 
+        self.oscillationConst = (g / length)
         self.angVel = 0
         self.angAcc = -(g / length) * numpy.sin(numpy.radians(initAngle))
 
@@ -30,9 +28,9 @@ class Pendulum:
     def _updateAngularAcceleration(self): # need to update the angle every time we get called
         self.angAcc = -self.oscillationConst * numpy.sin(self.angle)
     def _updateAngVelocity(self):
-        self.angVel += self.angAcc * self.offset
+        self.angVel += self.angAcc
     def _updateAngle(self):
-        self.angle += self.angVel * self.offset
+        self.angle += self.angVel
 
     def getXCoordinate(self):
         return self.length * numpy.sin(self.angle)

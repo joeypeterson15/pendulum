@@ -15,7 +15,7 @@ yShift = 400
 
 class Pendulum:
     def __init__(self, initAngle, length):
-        self.offset = 2 #this will be our measure of "time" since we will increment this number on every update
+        self.offset = 1 #this will be our measure of "time" since we will increment this number on every update
         self.angle = numpy.radians(initAngle)
         self.length = length
         self.oscillationConst = (g / length) # = not to be confused with angular velocity. 
@@ -44,7 +44,7 @@ def main():
     cols = 800
     rows = 800
 
-    window = GraphWin("pendulum", rows, cols)
+    window = GraphWin("pendulum", rows, cols, autoflush=False)
     pendulum = Pendulum(80, 70)
     circle = Circle(Point(400 + pendulum.getXCoordinate(), pendulum.length + pendulum.getYCoordinate()), 20)
     circle.setFill('pink')
@@ -54,27 +54,20 @@ def main():
     pointRotation.draw(window)
     aLine = Line(Point(400,0), Point(200 + pendulum.getXCoordinate(), pendulum.length + pendulum.getYCoordinate()))
     aLine.draw(window)
-    # c = Circle(Point(50, 200), 40)
-    # c.setFill('blue')
-    # c.draw(window)
 
-    counter = 50
     while True:
         circle.undraw()
+
         pendulum.process()
         aLine.undraw()
         xPos = 400 + pendulum.getXCoordinate() * 3
         YPos = pendulum.length + pendulum.getYCoordinate() * 3
+
         circle = Circle(Point(xPos, YPos), 20)
         aLine = Line(Point(400,0), Point(xPos, YPos))
         aLine.draw(window)
         circle.setFill('pink')
         circle.draw(window)
-        if counter > 25:
-        #     print("angle acceleration:", pendulum.angAcc)
-        #     print("angle velocity:", pendulum.angVel)
-            print("angle:", pendulum.angle)
-        counter = counter - 1
 
         if window.checkMouse():
             break

@@ -47,19 +47,21 @@ def main():
     circle = Circle(Point(400 + pendulum.getXCoordinate(), pendulum.length + pendulum.getYCoordinate()), 20)
     circle.setFill('pink')
     circle.draw(window)
-    pointRotation = Circle(Point(400, 0), 15)
+    pointRotation = Circle(Point(400, 0), 5)
     pointRotation.setFill("pink")
     pointRotation.draw(window)
     aLine = Line(Point(400,0), Point(200 + pendulum.getXCoordinate(), pendulum.length + pendulum.getYCoordinate()))
     aLine.draw(window)
+    dampingCount = 1
 
     while True:
         circle.undraw()
 
         pendulum.process()
         aLine.undraw()
-        xPos = 400 + pendulum.getXCoordinate() * 3
-        YPos = pendulum.length + pendulum.getYCoordinate() * 3
+        xPos = 400 + (pendulum.getXCoordinate() * 3 / dampingCount)
+        YPos = pendulum.length + (pendulum.getYCoordinate() *  3 / dampingCount)
+        dampingCount += 0.05
 
         circle = Circle(Point(xPos, YPos), 20)
         aLine = Line(Point(400,0), Point(xPos, YPos))

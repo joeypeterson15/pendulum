@@ -10,17 +10,17 @@ import numpy
 g = 9.8
 pi = 3.14
 # offset = 5
-xShift = 200
-yShift = 200
+xShift = 400
+yShift = 400
 
 class Pendulum:
     def __init__(self, initAngle, length):
         self.offset = 2 #this will be our measure of "time" since we will increment this number on every update
         self.angle = numpy.radians(initAngle)
         self.length = length
-        self.oscillationConst = g / length #not to be confused with angular velocity. 
+        self.oscillationConst = (g / length) # = not to be confused with angular velocity. 
         self.angVel = 0
-        self.angAcc = -g / length * numpy.sin(numpy.radians(initAngle))
+        self.angAcc = -(g / length) * numpy.sin(numpy.radians(initAngle))
 
     def process(self):
         self._updateAngularAcceleration()
@@ -28,46 +28,58 @@ class Pendulum:
         self._updateAngle()
 
     def _updateAngularAcceleration(self): # need to update the angle every time we get called
-        self.angAcc = - self.oscillationConst * numpy.sin(self.angle)
+        self.angAcc = -self.oscillationConst * numpy.sin(self.angle)
     def _updateAngVelocity(self):
         self.angVel += self.angAcc * self.offset
     def _updateAngle(self):
         self.angle += self.angVel * self.offset
 
     def getXCoordinate(self):
-        return self.length * numpy.cos(self.angle)
-    def getYCoordinate(self):
         return self.length * numpy.sin(self.angle)
+    def getYCoordinate(self):
+        return self.length * numpy.cos(self.angle)
         
 
 def main():
-    cols = 400
-    rows = 400
+    cols = 800
+    rows = 800
 
-    window = GraphWin("pendulum", rows, cols, autoflush=False)
-    pendulum = Pendulum(20, 20)
-    circle = Circle(Point(pendulum.getXCoordinate() + 200, 200 - pendulum.getYCoordinate()), 5)
-    circle.setFill('red')
+    window = GraphWin("pendulum", rows, cols)
+    pendulum = Pendulum(80, 70)
+    circle = Circle(Point(400 + pendulum.getXCoordinate(), pendulum.length + pendulum.getYCoordinate()), 20)
+    circle.setFill('pink')
     circle.draw(window)
-    c = Circle(Point(50, 200), 40)
-    c.setFill('blue')
-    c.draw(window)
+    pointRotation = Circle(Point(400, 0), 15)
+    pointRotation.setFill("pink")
+    pointRotation.draw(window)
+    aLine = Line(Point(400,0), Point(200 + pendulum.getXCoordinate(), pendulum.length + pendulum.getYCoordinate()))
+    aLine.draw(window)
+    # c = Circle(Point(50, 200), 40)
+    # c.setFill('blue')
+    # c.draw(window)
 
     counter = 50
     while True:
         circle.undraw()
         pendulum.process()
-        circle = Circle(Point(200 + pendulum.getXCoordinate(), 200 - pendulum.getYCoordinate()), 20)
+        aLine.undraw()
+        xPos = 400 + pendulum.getXCoordinate() * 3
+        YPos = pendulum.length + pendulum.getYCoordinate() * 3
+        circle = Circle(Point(xPos, YPos), 20)
+        aLine = Line(Point(400,0), Point(xPos, YPos))
+        aLine.draw(window)
+        circle.setFill('pink')
         circle.draw(window)
-        # if counter > 25:
+        if counter > 25:
         #     print("angle acceleration:", pendulum.angAcc)
         #     print("angle velocity:", pendulum.angVel)
-        #     print("angle:", pendulum.angle)
+            print("angle:", pendulum.angle)
+        counter = counter - 1
 
         if window.checkMouse():
             break
+        window.update()
 
-        time.sleep(0.5)
-        counter = counter - 1
+        time.sleep(0.1)
 
 main()

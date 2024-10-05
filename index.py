@@ -56,13 +56,13 @@ def main():
     xCoor = 400 + pendulum.getXCoordinate()
     yCoor = pendulum.getYCoordinate()
     forceArrow = Line(Point(xCoor, yCoor), Point(400 + g * (numpy.cos(pendulum.angle)), g * -numpy.sin(pendulum.angle)))
-    # if xCoor < 400:
-    # else:
-    #     forceArrow = Line(Point(-xCoor, -yCoor), Point(400 + g * (numpy.sin(-pendulum.angle)), g * numpy.sin(pendulum.angle - pi)))
+    text = Text(Point(xCoor - 5 * g * numpy.sin(pendulum.angle) - 10, yCoor + (pendulum.length - yCoor + 100)), "Force Arrow")
+    text.draw(window)
 
     forceArrow.draw(window)
     while True:
         circle.undraw()
+        text.undraw()
         forceArrow.undraw()
         pendulum.process()
         aLine.undraw()
@@ -74,15 +74,10 @@ def main():
         aLine.draw(window)
         circle.setFill('pink')
         circle.draw(window)
-        if xPos > 400:
-            forceArrow = Line(Point(xPos, YPos), Point(xPos + 5 * g * numpy.cos(pendulum.angle), YPos + g * 5 * numpy.sin(-pendulum.angle)))
-        else:
-            forceArrow = Line(Point(xPos, YPos), Point(xPos + 5 * g * -numpy.sin(pendulum.angle), YPos + g * 5 * numpy.sin(-pendulum.angle)))
-
-        # if xCoor < 400:
-        # else:
-        #     forceArrow = Line(Point(xPos, YPos), Point(400 + g * (numpy.sin(-pendulum.angle)), g * numpy.sin(pendulum.angle)))
-
+        forceArrow = Line(Point(xPos, YPos), Point(xPos - 5 * g * numpy.sin(pendulum.angle), YPos + (pendulum.length - YPos)))
+        forceArrow.setArrow("last")
+        text = Text(Point(xPos - 5 * g * numpy.sin(pendulum.angle) - 50, YPos + (pendulum.length - YPos)), "Force Arrow")
+        text.draw(window)
         forceArrow.draw(window)
 
         if window.checkMouse():

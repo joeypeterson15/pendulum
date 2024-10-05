@@ -43,27 +43,24 @@ def main():
     rows = 800
 
     window = GraphWin("pendulum", rows, cols, autoflush=False)
-    pendulum = Pendulum(80, 70)
-    circle = Circle(Point(400 + pendulum.getXCoordinate(), pendulum.length + pendulum.getYCoordinate()), 20)
+    pendulum = Pendulum(20, 120)
+    circle = Circle(Point(400 + pendulum.getXCoordinate(), pendulum.length + pendulum.getYCoordinate()), 8)
     circle.setFill('pink')
     circle.draw(window)
-    pointRotation = Circle(Point(400, 0), 5)
+    pointRotation = Circle(Point(400, 0), 2)
     pointRotation.setFill("pink")
     pointRotation.draw(window)
     aLine = Line(Point(400,0), Point(200 + pendulum.getXCoordinate(), pendulum.length + pendulum.getYCoordinate()))
     aLine.draw(window)
-    dampingCount = 1
-
     while True:
         circle.undraw()
 
         pendulum.process()
         aLine.undraw()
-        xPos = 400 + (pendulum.getXCoordinate() * 3 / dampingCount)
-        YPos = pendulum.length + (pendulum.getYCoordinate() *  3 / dampingCount)
-        dampingCount += 0.05
+        xPos = 400 + (pendulum.getXCoordinate())
+        YPos = (pendulum.getYCoordinate())
 
-        circle = Circle(Point(xPos, YPos), 20)
+        circle = Circle(Point(xPos, YPos), 8)
         aLine = Line(Point(400,0), Point(xPos, YPos))
         aLine.draw(window)
         circle.setFill('pink')

@@ -44,7 +44,7 @@ def main():
     rows = 800
 
     window = GraphWin("pendulum", rows, cols, autoflush=False)
-    pendulum = Pendulum(20, 120)
+    pendulum = Pendulum(40, 120)
     circle = Circle(Point(400 + pendulum.getXCoordinate(), pendulum.getYCoordinate()), 8)
     circle.setFill('pink')
     circle.draw(window)
@@ -55,7 +55,8 @@ def main():
     aLine.draw(window)
     xCoor = 400 + pendulum.getXCoordinate()
     yCoor = pendulum.getYCoordinate()
-    forceArrow = Line(Point(xCoor, yCoor), Point(400 - numpy.sin(pendulum.angle - (pi / 2)), numpy.cos(pendulum.angle - (pi / 2))))
+    forceArrow = Line(Point(xCoor, yCoor), Point(400 + g * (numpy.cos(pendulum.angle)), g * -numpy.sin(pendulum.angle + (pi / 2))))
+
     forceArrow.draw(window)
     while True:
         circle.undraw()
@@ -71,7 +72,7 @@ def main():
         circle.setFill('pink')
         circle.draw(window)
 
-        forceArrow = Line(Point(xPos, YPos), Point(400 - numpy.sin(pendulum.angle - (pi / 2)), numpy.cos(pendulum.angle - (pi / 2))))
+        forceArrow = Line(Point(xPos, YPos),  Point(xPos + 5 * g * numpy.cos(pi / 2 + pendulum.angle), YPos + 5 * g * numpy.sin(pi / 2 - pendulum.angle)))
         forceArrow.draw(window)
 
         if window.checkMouse():

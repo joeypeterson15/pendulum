@@ -55,7 +55,10 @@ def main():
     aLine.draw(window)
     xCoor = 400 + pendulum.getXCoordinate()
     yCoor = pendulum.getYCoordinate()
-    forceArrow = Line(Point(xCoor, yCoor), Point(400 + g * (numpy.cos(pendulum.angle)), g * -numpy.sin(pendulum.angle + (pi / 2))))
+    if xCoor < 400:
+        forceArrow = Line(Point(xCoor, yCoor), Point(400 + g * (numpy.cos(pendulum.angle)), g * -numpy.sin(pendulum.angle)))
+    else:
+        forceArrow = Line(Point(-xCoor, -yCoor), Point(400 + g * (numpy.sin(-pendulum.angle)), g * numpy.sin(pendulum.angle - pi)))
 
     forceArrow.draw(window)
     while True:
@@ -72,7 +75,12 @@ def main():
         circle.setFill('pink')
         circle.draw(window)
 
-        forceArrow = Line(Point(xPos, YPos),  Point(xPos + 5 * g * numpy.cos(pi / 2 + pendulum.angle), YPos + 5 * g * numpy.sin(pi / 2 - pendulum.angle)))
+        forceArrow = Line(Point(xPos, YPos),  Point(xPos + 5 * g * numpy.cos(pi / 2 + pendulum.angle), YPos + 5 * g * numpy.sin(pi - pendulum.angle)))
+        # if xCoor < 400:
+        #     forceArrow = Line(Point(xPos, YPos), Point(400 + g * (numpy.cos(pendulum.angle)), g * -numpy.sin(pendulum.angle)))
+        # else:
+        #     forceArrow = Line(Point(xPos, YPos), Point(400 + g * (numpy.sin(-pendulum.angle)), g * numpy.sin(pendulum.angle)))
+
         forceArrow.draw(window)
 
         if window.checkMouse():

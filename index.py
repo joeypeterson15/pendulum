@@ -36,6 +36,7 @@ class Pendulum:
         return self.length * numpy.sin(self.angle)
     def getYCoordinate(self):
         return self.length * numpy.cos(self.angle)
+# class forceArrow:
         
 
 def main():
@@ -44,17 +45,21 @@ def main():
 
     window = GraphWin("pendulum", rows, cols, autoflush=False)
     pendulum = Pendulum(20, 120)
-    circle = Circle(Point(400 + pendulum.getXCoordinate(), pendulum.length + pendulum.getYCoordinate()), 8)
+    circle = Circle(Point(400 + pendulum.getXCoordinate(), pendulum.getYCoordinate()), 8)
     circle.setFill('pink')
     circle.draw(window)
     pointRotation = Circle(Point(400, 0), 2)
     pointRotation.setFill("pink")
     pointRotation.draw(window)
-    aLine = Line(Point(400,0), Point(200 + pendulum.getXCoordinate(), pendulum.length + pendulum.getYCoordinate()))
+    aLine = Line(Point(400,0), Point(400 + pendulum.getXCoordinate(), pendulum.getYCoordinate()))
     aLine.draw(window)
+    xCoor = 400 + pendulum.getXCoordinate()
+    yCoor = pendulum.getYCoordinate()
+    forceArrow = Line(Point(xCoor, yCoor), Point(400 - numpy.sin(pendulum.angle - (pi / 2)), numpy.cos(pendulum.angle - (pi / 2))))
+    forceArrow.draw(window)
     while True:
         circle.undraw()
-
+        forceArrow.undraw()
         pendulum.process()
         aLine.undraw()
         xPos = 400 + (pendulum.getXCoordinate())
@@ -65,6 +70,9 @@ def main():
         aLine.draw(window)
         circle.setFill('pink')
         circle.draw(window)
+
+        forceArrow = Line(Point(xPos, YPos), Point(400 - numpy.sin(pendulum.angle - (pi / 2)), numpy.cos(pendulum.angle - (pi / 2))))
+        forceArrow.draw(window)
 
         if window.checkMouse():
             break

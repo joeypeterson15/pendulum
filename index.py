@@ -64,16 +64,15 @@ def main():
 
     forceArrow = Line(Point(xCoor, yCoor), Point(400 + g * (numpy.cos(pendulum.angle)), g * -numpy.sin(pendulum.angle)))
     forceArrow.draw(window)
-    text = Text(Point(xCoor - 5 * g * numpy.sin(pendulum.angle) - 50, yCoor + (pendulum.length - yCoor)), "Force Arrow")
-    text.draw(window)
+
+    
 
     while True:
         pendulum.process()
     
         circle.undraw()
-        text.undraw()
+        # text.undraw()
         aLine.undraw()
-        upArrowForce.undraw()
         forceArrow.undraw()
     
         xPos = 400 + (pendulum.getXCoordinate())
@@ -89,18 +88,18 @@ def main():
         forceArrow.setArrow("last")
         forceArrow.draw(window)
 
-        upArrowForce  = Line(Point(xPos, YPos), Point(xPos - g *  numpy.sin(pendulum.angle), YPos - 60 * numpy.cos(pendulum.angle)))
-        print("cos angle up arrow", numpy.cos(pendulum.angle))
+        upArrowForce.undraw()
+        upArrowForce  = Line(Point(xPos, YPos), Point(xPos + numpy.cos(pi / 2 + pendulum.angle) * pendulum.length / 2, YPos - numpy.sin(pi / 2 + pendulum.angle) * pendulum.length / 2))
         upArrowForce.setArrow("last")
         upArrowForce.draw(window)
 
-        text = Text(Point(xPos - 5 * g * numpy.sin(pendulum.angle) - 50, YPos + (pendulum.length - YPos)), "-gsin(theta)")
-        text.draw(window)
+        # text = Text(Point(xPos - 5 * g * numpy.sin(pendulum.angle) - 50, YPos + (pendulum.length - YPos)), "-gsin(theta)")
+        # text.draw(window)
 
         if window.checkMouse():
             break
         window.update()
 
-        time.sleep(0.18)
+        time.sleep(0.1)
 
 main()

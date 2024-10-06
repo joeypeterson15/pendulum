@@ -14,6 +14,7 @@ import numpy
 g = 9.8
 pi = 3.14
 scalar = 5
+dampingCoefficient = 1 / 50
 
 class Pendulum:
     def __init__(self, initAngle, length):
@@ -29,7 +30,7 @@ class Pendulum:
         self._updateAngle()
 
     def _updateAngularAcceleration(self): # need to update the angle every time we get called(Eulers method)
-        self.angAcc = -self.oscillationConst * numpy.sin(self.angle)
+        self.angAcc = -self.oscillationConst * numpy.sin(self.angle) - (dampingCoefficient * self.angVel)
     def _updateAngVelocity(self):
         self.angVel += self.angAcc
     def _updateAngle(self):

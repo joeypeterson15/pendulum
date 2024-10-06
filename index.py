@@ -93,7 +93,6 @@ def main():
 
         tensionScale = 5 * abs(numpy.cos(pendulum.angle))
         cosTensionForce = Line(Point(xPos, YPos), Point(xPos + g * tensionScale * numpy.sin(pendulum.angle), YPos + (g * tensionScale * numpy.cos(pendulum.angle))))
-
         cosTensionForce.setArrow("last")
         cosTensionForce.draw(window)
 

@@ -51,6 +51,8 @@ def main():
     potE_y = pendulumLength + 5 * g
     kinE_x = rows - rows / 6
     kinE_y = pendulumLength + 5 * g
+    totE_x = rows - rows / 10
+    totE_y = pendulumLength + 5 * g
     window = GraphWin("pendulum", rows, cols, autoflush=False)
 
     pendulum = Pendulum(angle, pendulumLength)
@@ -85,6 +87,10 @@ def main():
     kinELine = Line(Point(kinE_x, kinE_y), Point(kinE_x, kinE_y - kinE))
     kinELine.draw(window)
 
+    totE = potE + kinE
+    totELine = Line(Point(totE_x, totE_y), Point(totE_x, totE_y - totE))
+    totELine.draw(window)
+
     while True:
         pendulum.process()
     
@@ -95,11 +101,12 @@ def main():
         gForce.undraw()
         kinELine.undraw()
         potELine.undraw()
+        totELine.undraw()
 
         xPos = xCenter + (pendulum.getXCoordinate())
         YPos = pendulum.getYCoordinate()
 
-        circle = Circle(Point(xPos, YPos), 8)
+        circle = Circle(Point(xPos, YPos), 9)
         aLine = Line(Point(xCenter,0), Point(xPos, YPos))
         aLine.draw(window)
         circle.setFill('pink')
@@ -140,6 +147,11 @@ def main():
         kinELine.setOutline("green")
         kinELine.setWidth(10)
         kinELine.draw(window)
+
+        totE = potE + kinE
+        totELine = Line(Point(totE_x, totE_y), Point(totE_x, totE_y - totE))
+        totELine.setWidth(10)
+        totELine.draw(window)
 
         if window.checkMouse():
             break

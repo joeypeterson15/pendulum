@@ -47,6 +47,10 @@ def main():
     angle = 40
     pendulumLength = 120
     xCenter = rows / 2
+    potE_x = rows - rows / 5
+    potE_y = pendulumLength + 5 * g
+    kinE_x = rows - rows / 6
+    kinE_y = pendulumLength + 5 * g
     window = GraphWin("pendulum", rows, cols, autoflush=False)
 
     pendulum = Pendulum(angle, pendulumLength)
@@ -72,6 +76,15 @@ def main():
     gForceMagnitude = scalar * g
     gForce = Line(Point(xCoor, yCoor), Point(xCoor, yCoor + gForceMagnitude))
 
+    initHeight = pendulum.length * (1 - numpy.cos(pendulum.angle))
+    potE = g * initHeight #potential energy at initial angle is the maximum potential energy = initial potential energy
+    potELine = Line(Point(potE_x, potE_y), Point(potE_x, potE_y - potE))
+    potELine.draw(window)
+
+    kinE = 0.5 * (pendulum.length * pendulum.angVel) ** 2
+    kinELine = Line(Point(kinE_x, kinE_y), Point(kinE_x, kinE_y - kinE))
+    kinELine.draw(window)
+
     while True:
         pendulum.process()
     
@@ -80,6 +93,8 @@ def main():
         sinForceArrow.undraw()
         cosTensionForce.undraw()
         gForce.undraw()
+        kinELine.undraw()
+        potELine.undraw()
 
         xPos = xCenter + (pendulum.getXCoordinate())
         YPos = pendulum.getYCoordinate()
@@ -111,7 +126,20 @@ def main():
         gForce = Line(Point(xPos, YPos), Point(xPos, YPos + gForceMagnitude))
         gForce.setArrow("last")
         gForce.setOutline("blue")
-        gForce.draw(window) 
+        gForce.draw(window)
+
+        h = pendulum.length * (1 - numpy.cos(pendulum.angle))
+        potE = (g * h) / 2 #potential energy at initial angle is the maximum potential energy = initial potential energy
+        potELine = Line(Point(potE_x, potE_y), Point(potE_x, potE_y - potE))
+        potELine.setOutline("orange")
+        potELine.setWidth(10)
+        potELine.draw(window)
+
+        kinE = (0.5 * (pendulum.length * pendulum.angVel) ** 2) / 2
+        kinELine = Line(Point(kinE_x, kinE_y), Point(kinE_x, kinE_y - kinE))
+        kinELine.setOutline("green")
+        kinELine.setWidth(10)
+        kinELine.draw(window)
 
         if window.checkMouse():
             break

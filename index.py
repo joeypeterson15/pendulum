@@ -9,7 +9,7 @@ import numpy
     #       d^2(θ) / d(t)^2 + (g/L)sin(θ) = 0
 
     # with damping:
-    #       d^2(θ)/d(t)^2 + C * d(θ)/d(t) + (g/L)sin(θ) = F(initial)cos(wt)
+    #       d^2(θ)/d(t)^2 + (c)d(θ)/d(t) + (g/L)sin(θ) = F(initial)cos(wt)
 
 g = 9.8
 pi = 3.14
@@ -43,10 +43,12 @@ class Pendulum:
 def main():
     cols = 300
     rows = 500
+    angle = 40
+    pendulumLength = 120
     xCenter = rows / 2
     window = GraphWin("pendulum", rows, cols, autoflush=False)
 
-    pendulum = Pendulum(80, 120)
+    pendulum = Pendulum(angle, pendulumLength)
     xCoor = xCenter + pendulum.getXCoordinate()
     yCoor = pendulum.getYCoordinate()
 
@@ -85,6 +87,7 @@ def main():
         aLine = Line(Point(xCenter,0), Point(xPos, YPos))
         aLine.draw(window)
         circle.setFill('pink')
+        circle.setOutline('pink')
         circle.draw(window)
 
         sinForceScalar = scalar * numpy.sin(pendulum.angle)
@@ -93,22 +96,26 @@ def main():
         sinForceYDirection = numpy.sin(pendulum.angle)
         sinForceArrow = Line(Point(xPos, YPos), Point(xPos + sinForceXDirection * sinForceMagnitude, YPos + sinForceYDirection * sinForceMagnitude))
         sinForceArrow.setArrow("last")
+        sinForceArrow.setOutline("red")
         sinForceArrow.draw(window)
 
-        tensionScale = scalar * abs(numpy.cos(pendulum.angle))
-        cosTensionForce = Line(Point(xPos, YPos), Point(xPos + g * tensionScale * numpy.sin(pendulum.angle), YPos + (g * tensionScale * numpy.cos(pendulum.angle))))
+        tensionScalar = scalar * abs(numpy.cos(pendulum.angle))
+        cosTensionMagnitude = g * tensionScalar
+        cosTensionForce = Line(Point(xPos, YPos), Point(xPos + (cosTensionMagnitude * numpy.sin(pendulum.angle)), YPos + (cosTensionMagnitude * numpy.cos(pendulum.angle))))
         cosTensionForce.setArrow("last")
+        cosTensionForce.setOutline("red")
         cosTensionForce.draw(window)
 
         gForceMagnitude = scalar * g
         gForce = Line(Point(xPos, YPos), Point(xPos, YPos + gForceMagnitude))
         gForce.setArrow("last")
+        gForce.setOutline("blue")
         gForce.draw(window) 
 
         if window.checkMouse():
             break
         window.update()
 
-        time.sleep(0.15)
+        time.sleep(0.09)
 
 main()

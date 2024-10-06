@@ -7,6 +7,10 @@ import numpy
     # anglular force = torque = F * (length of pendulum) = -mgsin(θ) * L
     # solving for theta:
     #       d^2(θ) / d(t)^2 + (g/L)sin(θ) = 0
+
+    # with damping:
+    #       d^2(θ)/d(t)^2 + C * d(θ)/d(t) + (g/L)sin(θ) = F(initial)cos(wt)
+
 g = 9.8
 pi = 3.14
 scalar = 5

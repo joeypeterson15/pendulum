@@ -29,7 +29,7 @@ class Pendulum:
         self._updateAngVelocity()
         self._updateAngle()
 
-    def _updateAngularAcceleration(self): # need to update the angle every time we get called(Eulers method)
+    def _updateAngularAcceleration(self): # Eulers method - use previous angle(changing with implicit time in frame change) and previous angle velocity for intial conditions
         self.angAcc = -self.oscillationConst * numpy.sin(self.angle) - (dampingCoefficient * self.angVel)
     def _updateAngVelocity(self):
         self.angVel += self.angAcc
@@ -135,7 +135,7 @@ def main():
         gForce.setOutline("blue")
         gForce.draw(window)
 
-        h = pendulum.length * (1 - numpy.cos(pendulum.angle))
+        h = pendulum.length * (1 - numpy.cos(pendulum.angle)) # height is distance from equilibrium height
         potE = (g * h) / 2 #potential energy at initial angle is the maximum potential energy = initial potential energy
         potELine = Line(Point(potE_x, potE_y), Point(potE_x, potE_y - potE))
         potELine.setOutline("orange")

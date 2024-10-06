@@ -46,7 +46,7 @@ def main():
     xCenter = rows / 2
     window = GraphWin("pendulum", rows, cols, autoflush=False)
 
-    pendulum = Pendulum(60, 120)
+    pendulum = Pendulum(80, 120)
     xCoor = xCenter + pendulum.getXCoordinate()
     yCoor = pendulum.getYCoordinate()
 
@@ -109,6 +109,6 @@ def main():
             break
         window.update()
 
-        time.sleep(0.1)
+        time.sleep(0.15)
 
 main()

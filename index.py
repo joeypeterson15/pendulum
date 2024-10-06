@@ -41,8 +41,8 @@ class Pendulum:
         return self.length * numpy.cos(self.angle)        
 
 def main():
-    cols = 800
-    rows = 800
+    cols = 300
+    rows = 500
     xCenter = rows / 2
     window = GraphWin("pendulum", rows, cols, autoflush=False)
 
@@ -95,7 +95,7 @@ def main():
         sinForceArrow.setArrow("last")
         sinForceArrow.draw(window)
 
-        tensionScale = 5 * abs(numpy.cos(pendulum.angle))
+        tensionScale = scalar * abs(numpy.cos(pendulum.angle))
         cosTensionForce = Line(Point(xPos, YPos), Point(xPos + g * tensionScale * numpy.sin(pendulum.angle), YPos + (g * tensionScale * numpy.cos(pendulum.angle))))
         cosTensionForce.setArrow("last")
         cosTensionForce.draw(window)
@@ -109,6 +109,6 @@ def main():
             break
         window.update()
 
-        time.sleep(0.13)
+        time.sleep(0.1)
 
 main()

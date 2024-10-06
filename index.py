@@ -97,6 +97,8 @@ def main():
         upArrowForce.draw(window)
 
         downTensionForce = Line(Point(xPos, YPos), Point(xPos + g * 5 * numpy.sin(pendulum.angle), YPos + (g * 5 * numpy.cos(pendulum.angle))))
+        downTensionForce.setArrow("last")
+        # downTensionForce = Line(Point(xPos, YPos), Point((pendulum.length - xPos), YPos + (g * 5 * numpy.cos(pendulum.angle))))
         downTensionForce.draw(window)
 
         if window.checkMouse():

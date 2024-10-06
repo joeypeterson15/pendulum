@@ -11,6 +11,7 @@ g = 9.8
 pi = 3.14
 xShift = 400
 yShift = 400
+scalar = 5
 
 class Pendulum:
     def __init__(self, initAngle, length):
@@ -44,7 +45,7 @@ def main():
     rows = 800
     window = GraphWin("pendulum", rows, cols, autoflush=False)
 
-    pendulum = Pendulum(40, 120)
+    pendulum = Pendulum(60, 120)
     xCoor = 400 + pendulum.getXCoordinate()
     yCoor = pendulum.getYCoordinate()
 
@@ -58,15 +59,20 @@ def main():
     aLine = Line(Point(400,0), Point(xCoor, yCoor))
     aLine.draw(window)
 
-    upArrowForce = Line(Point(xCoor, yCoor), Point(xCoor - g * numpy.sin(pendulum.angle), yCoor - 5 * g * numpy.cos(pendulum.angle)))
-    upArrowForce.setArrow("last")
-    upArrowForce.draw(window)
+    # upArrowForce = Line(Point(xCoor, yCoor), Point(xCoor - 5 * g * numpy.sin(pendulum.angle), yCoor - 5 * g * numpy.cos(pendulum.angle)))
+    # upArrowForce.setArrow("last")
+    # upArrowForce.draw(window)
 
     downTensionForce = Line(Point(xCoor, yCoor), Point(xCoor + g * numpy.sin(pendulum.angle), yCoor + (g * numpy.cos(pendulum.angle))))
     downTensionForce.draw(window)
 
     forceArrow = Line(Point(xCoor, yCoor), Point(400 + g * (numpy.cos(pendulum.angle)), g * -numpy.sin(pendulum.angle)))
     forceArrow.draw(window)
+
+    gForceMagnitude = scalar * g
+    gForce = Line(Point(xCoor, yCoor), Point(xCoor, yCoor + gForceMagnitude))
+
+
 
 
 
@@ -77,6 +83,7 @@ def main():
         aLine.undraw()
         forceArrow.undraw()
         downTensionForce.undraw()
+        gForce.undraw()
 
         xPos = 400 + (pendulum.getXCoordinate())
         YPos = pendulum.getYCoordinate()
@@ -87,24 +94,32 @@ def main():
         circle.setFill('pink')
         circle.draw(window)
 
-        forceArrow = Line(Point(xPos, YPos), Point(xPos - 5 * g * numpy.sin(pendulum.angle), YPos + (pendulum.length - YPos)))
+        forceArrow = Line(Point(xPos, YPos), Point(xPos - 5 * g * numpy.sin(pendulum.angle), pendulum.length))
+        # tensionScale = 5 * abs(numpy.sin(pendulum.an))
+        # forceArrow = Line(Point(xPos, YPos), Point(xPos - 5 * g * numpy.sin(pendulum.angle), ))
         forceArrow.setArrow("last")
         forceArrow.draw(window)
 
-        upArrowForce.undraw()
-        upArrowForce  = Line(Point(xPos, YPos), Point(xPos + numpy.cos(pi / 2 + pendulum.angle) * pendulum.length / 2, YPos - numpy.sin(pi / 2 + pendulum.angle) * pendulum.length / 2))
-        upArrowForce.setArrow("last")
-        upArrowForce.draw(window)
+        # upArrowForce.undraw()
+        # upArrowForce  = Line(Point(xPos, YPos), Point(xPos + numpy.cos(pi / 2 + pendulum.angle) * 5 * g, YPos - numpy.sin(pi / 2 + pendulum.angle) * 5 * g))
+        # upArrowForce.setArrow("last")
+        # upArrowForce.draw(window)
 
-        downTensionForce = Line(Point(xPos, YPos), Point(xPos + g * 5 * numpy.sin(pendulum.angle), YPos + (g * 5 * numpy.cos(pendulum.angle))))
+        tensionScale = 5 * abs(numpy.cos(pendulum.angle)) ** 2
+        downTensionForce = Line(Point(xPos, YPos), Point(xPos + g * tensionScale * numpy.sin(pendulum.angle), YPos + (g * tensionScale * numpy.cos(pendulum.angle))))
+
         downTensionForce.setArrow("last")
-        # downTensionForce = Line(Point(xPos, YPos), Point((pendulum.length - xPos), YPos + (g * 5 * numpy.cos(pendulum.angle))))
         downTensionForce.draw(window)
+
+        gForceMagnitude = scalar * g
+        gForce = Line(Point(xPos, YPos), Point(xPos, YPos + gForceMagnitude))
+        gForce.setArrow("last")
+        gForce.draw(window) 
 
         if window.checkMouse():
             break
         window.update()
 
-        time.sleep(0.18)
+        time.sleep(0.3)
 
 main()

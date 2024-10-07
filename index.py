@@ -14,7 +14,7 @@ import numpy
 g = 9.8
 pi = 3.14
 scalar = 5
-dampingCoefficient = 1 / 50
+dampingCoefficient = 1 / 70
 
 class Pendulum:
     def __init__(self, initAngle, length):
@@ -54,9 +54,9 @@ def main():
     totE_x = rows - rows / 15
     totE_y = pendulumLength - 10 + 5 * g
 
-    yLabelsin = pendulumLength -75 + 5 * g
-    yLabelcos = pendulumLength -50 + 5 * g
-    yLabelTotal = pendulumLength -25 + 5 * g
+    yLabelsin = pendulumLength -60 + 5 * g
+    yLabelcos = pendulumLength -35 + 5 * g
+    yLabelTotal = pendulumLength -10 + 5 * g
     xLabel = rows / 7
     window = GraphWin("pendulum", rows, cols, autoflush=False)
 

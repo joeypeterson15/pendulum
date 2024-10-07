@@ -42,18 +42,37 @@ class Pendulum:
         return self.length * numpy.cos(self.angle)        
 
 def main():
-    cols = 300
+    cols = 200
     rows = 500
     angle = 40
     pendulumLength = 120
     xCenter = rows / 2
     potE_x = rows - rows / 5
-    potE_y = pendulumLength + 5 * g
-    kinE_x = rows - rows / 6
-    kinE_y = pendulumLength + 5 * g
-    totE_x = rows - rows / 10
-    totE_y = pendulumLength + 5 * g
+    potE_y = pendulumLength - 10 + 5 * g
+    kinE_x = rows - rows / 7
+    kinE_y = pendulumLength - 10 + 5 * g
+    totE_x = rows - rows / 15
+    totE_y = pendulumLength - 10 + 5 * g
+
+    yLabelsin = pendulumLength -75 + 5 * g
+    yLabelcos = pendulumLength -50 + 5 * g
+    yLabelTotal = pendulumLength -25 + 5 * g
+    xLabel = rows / 7
     window = GraphWin("pendulum", rows, cols, autoflush=False)
+
+    sinForceLabel = Text(Point(xLabel, yLabelsin), "-g*sin(θ)")
+    cosForceLabel = Text(Point(xLabel, yLabelcos), "g*cos(θ)")
+    gForceLabel = Text(Point(xLabel, yLabelTotal), "-g")
+    cosForceLabel.setTextColor("purple")
+    cosForceLabel.setSize(15)
+    sinForceLabel.setSize(15)
+    gForceLabel.setSize(15)
+    sinForceLabel.setTextColor("red")
+    gForceLabel.setTextColor("blue")
+    sinForceLabel.draw(window)
+    cosForceLabel.draw(window)
+    gForceLabel.draw(window)
+    gForceLabel
 
     pendulum = Pendulum(angle, pendulumLength)
     xCoor = xCenter + pendulum.getXCoordinate()
@@ -91,6 +110,15 @@ def main():
     totELine = Line(Point(totE_x, totE_y), Point(totE_x, totE_y - totE))
     totELine.draw(window)
 
+    totEText = Text(Point(totE_x, totE_y + 10), "Total")
+    totEText.draw(window)
+
+    potEText = Text(Point(potE_x, potE_y + 10), "PE")
+    potEText.draw(window)
+
+    kinEText = Text(Point(kinE_x, kinE_y + 10), "KE")
+    kinEText.draw(window)
+
     while True:
         pendulum.process()
     
@@ -126,7 +154,7 @@ def main():
         cosTensionMagnitude = g * tensionScalar
         cosTensionForce = Line(Point(xPos, YPos), Point(xPos + (cosTensionMagnitude * numpy.sin(pendulum.angle)), YPos + (cosTensionMagnitude * numpy.cos(pendulum.angle))))
         cosTensionForce.setArrow("last")
-        cosTensionForce.setOutline("red")
+        cosTensionForce.setOutline("purple")
         cosTensionForce.draw(window)
 
         gForceMagnitude = scalar * g
